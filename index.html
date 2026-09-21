@@ -1,377 +1,635 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Bali 2026 — Martí & Hugo</title>
-<meta name="description" content="Itinerario interactivo Bali 2026">
-<meta name="theme-color" content="#1B4332">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Bali 2026">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231B4332' width='100' height='100' rx='20'/><text x='50' y='68' text-anchor='middle' font-size='50'>🌴</text></svg>">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Noruega — Grimorio · Trip App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<!-- PWA Manifest -->
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQmFsaSAyMDI2Iiwic2hvcnRfbmFtZSI6IkJhbGkiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI0ZBRjNFOCIsInRoZW1lX2NvbG9yIjoiIzFCNDMzMiIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWwsPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cmVjdCBmaWxsPSclMjMxQjQzMzInIHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJyByeD0nMjAnLz48dGV4dCB4PSc1MCcgeT0nNjgnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZvbnQtc2l6ZT0nNTAnPvCfjLQ8L3RleHQ+PC9zdmc+Iiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
 <style>
-:root{--emerald:#2D6A4F;--emerald-light:#40916C;--emerald-dark:#1B4332;--gold:#D4A574;--gold-light:#E8C9A0;--beige:#FAF3E8;--beige-dark:#F0E6D4;--sand:#F5ECD7;--text-dark:#2C2416;--text-mid:#5C4A32;--text-light:#8B7355;--white:#FFF;--shadow:0 2px 12px rgba(44,36,22,.08);--shadow-lg:0 8px 32px rgba(44,36,22,.12);--radius:16px;--radius-sm:10px;--nav-height:72px}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{font-family:'DM Sans',sans-serif;background:var(--beige);color:var(--text-dark);height:100%;overflow:hidden}
-h1,h2,h3,h4{font-family:'Playfair Display',serif}
-.screen{display:none;height:calc(100vh - var(--nav-height));overflow-y:auto;scroll-behavior:smooth}.screen.active{display:block}
-.navbar{position:fixed;bottom:0;left:0;right:0;height:var(--nav-height);background:var(--white);border-top:1px solid var(--beige-dark);display:flex;justify-content:space-around;align-items:center;z-index:1000;padding-bottom:env(safe-area-inset-bottom,0);box-shadow:0 -4px 20px rgba(44,36,22,.06)}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:500;color:var(--text-light);cursor:pointer;transition:all .2s;padding:6px 8px;border-radius:12px;position:relative}
-.nav-item i{font-size:18px;transition:all .2s}.nav-item.active{color:var(--emerald)}.nav-item.active i{transform:scale(1.1)}
-.nav-item.active::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--emerald);border-radius:0 0 4px 4px}
-.home-hero{min-height:calc(100vh - var(--nav-height));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;background:linear-gradient(170deg,var(--beige) 0%,var(--sand) 40%,var(--beige-dark) 100%);position:relative}
-.home-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(45,106,79,.06) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(212,165,116,.1) 0%,transparent 50%)}
-.home-hero>*{position:relative;z-index:1}
-.home-ornament{font-size:14px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;font-weight:500;margin-bottom:12px}
-.home-title{font-size:clamp(48px,12vw,72px);font-weight:700;color:var(--emerald-dark);line-height:1;margin-bottom:4px}.home-title span{font-style:italic;color:var(--emerald-light);font-weight:400}
-.home-subtitle{font-family:'Playfair Display',serif;font-size:18px;color:var(--text-mid);font-style:italic;margin:8px 0 32px;opacity:.8}
-.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px;width:100%;max-width:360px}
-.countdown-item{background:var(--white);border-radius:var(--radius-sm);padding:16px 8px;box-shadow:var(--shadow)}
-.countdown-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--emerald);line-height:1}
-.countdown-label{font-size:11px;color:var(--text-light);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
-.home-dates{font-size:14px;color:var(--text-mid);margin-bottom:16px;background:var(--white);padding:10px 20px;border-radius:40px;box-shadow:var(--shadow);font-weight:500}.home-dates i{color:var(--gold);margin-right:6px}
-.home-route{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:8px;max-width:380px}
-.home-route span{font-size:11px;background:var(--emerald-dark);color:var(--gold-light);padding:5px 12px;border-radius:20px;font-weight:500;letter-spacing:.5px}
-#map-container{height:calc(100vh - var(--nav-height));width:100%;position:relative}#map{height:100%;width:100%}
-.leaflet-popup-content-wrapper{border-radius:var(--radius-sm)!important;box-shadow:var(--shadow-lg)!important}
-.leaflet-popup-content{font-family:'DM Sans',sans-serif!important;margin:12px 16px!important}
-.popup-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--emerald-dark);margin-bottom:4px}
-.popup-zone{font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.popup-desc{font-size:13px;color:var(--text-mid);line-height:1.5;margin-bottom:10px}
-.popup-nav{display:inline-flex;align-items:center;gap:6px;background:var(--emerald);color:white;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none}
-.map-legend{position:absolute;bottom:16px;left:16px;right:16px;z-index:800;background:var(--white);border-radius:var(--radius-sm);padding:12px 16px;box-shadow:var(--shadow-lg);display:flex;flex-wrap:wrap;gap:10px;font-size:11px}
-.legend-item{display:flex;align-items:center;gap:5px}.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.content-screen{padding:20px 16px calc(var(--nav-height) + 20px)}
-.section-header{text-align:center;margin-bottom:24px;padding:20px;border-radius:var(--radius);color:var(--white)}
-.section-header h2{font-size:28px;margin-bottom:4px}.section-header p{opacity:.8;font-size:13px}
-.day-card{background:var(--white);border-radius:var(--radius);margin-bottom:16px;box-shadow:var(--shadow);overflow:hidden}
-.day-card-header{padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:background .2s}.day-card-header:active{background:var(--beige)}
-.day-num{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:var(--white);flex-shrink:0}
-.day-info{flex:1}.day-info h3{font-size:16px;color:var(--text-dark);margin-bottom:2px}.day-info p{font-size:12px;color:var(--text-light)}
-.day-chevron{color:var(--text-light);transition:transform .3s;font-size:14px}.day-card.open .day-chevron{transform:rotate(180deg)}
-.day-content{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .4s ease}.day-card.open .day-content{max-height:2000px;padding-bottom:18px}
-.time-block{margin-top:14px}
-.time-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;color:var(--emerald);margin-bottom:8px;display:flex;align-items:center;gap:6px}.time-label i{font-size:13px}
-.activity-item{background:var(--beige);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;font-size:13px;line-height:1.6;color:var(--text-mid);border-left:3px solid var(--gold);white-space:pre-line}
-.act-nav{display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:var(--emerald);color:white;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;cursor:pointer}
-.check-progress{margin:16px 0 8px;height:8px;background:rgba(255,255,255,.5);border-radius:10px;overflow:hidden}
-.check-progress-bar{height:100%;background:var(--emerald);border-radius:10px;transition:width .4s}.check-progress-text{font-size:13px;font-weight:600}
-.check-category{background:var(--white);border-radius:var(--radius);margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden}
-.check-cat-header{padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;font-size:14px}
-.check-cat-header i{color:var(--emerald);font-size:16px}.cat-count{margin-left:auto;font-size:12px;color:var(--text-light);font-weight:400}
-.cat-chevron{color:var(--text-light);font-size:12px;transition:transform .3s}.check-category.open .cat-chevron{transform:rotate(180deg)}
-.check-items{max-height:0;overflow:hidden;transition:max-height .4s;padding:0 16px}.check-category.open .check-items{max-height:1000px;padding-bottom:12px}
-.check-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--beige-dark);cursor:pointer;font-size:14px}.check-item:last-child{border-bottom:none}
-.check-box{width:22px;height:22px;border:2px solid var(--beige-dark);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:12px;color:transparent}
-.check-item.done .check-box{background:var(--emerald);border-color:var(--emerald);color:white}.check-item.done .check-text{text-decoration:line-through;color:var(--text-light)}
-.emerg-card{background:var(--white);border-radius:var(--radius);padding:18px;margin-bottom:12px;box-shadow:var(--shadow);display:flex;align-items:flex-start;gap:14px}
-.emerg-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.emerg-info h4{font-size:15px;margin-bottom:4px}.emerg-info p{font-size:13px;color:var(--text-mid);line-height:1.5}.emerg-info a{color:var(--emerald);font-weight:600;text-decoration:none}
-/* Weather */
-.wx-zone-tab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;background:var(--white);color:var(--text-mid);box-shadow:var(--shadow);transition:all .2s;border:2px solid transparent}
-.wx-zone-tab.active{background:var(--emerald);color:white}
-.wx-hour{flex-shrink:0;background:var(--white);border-radius:var(--radius-sm);padding:12px 14px;text-align:center;box-shadow:var(--shadow);min-width:70px}
-/* Today badge */
-.today-badge{display:inline-flex;align-items:center;gap:4px;background:#E8F5E9;color:var(--emerald);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:8px;animation:pulse-today 2s infinite}
-@keyframes pulse-today{0%,100%{opacity:1}50%{opacity:.6}}
-.day-card.is-today{border:2px solid var(--emerald);box-shadow:0 4px 20px rgba(45,106,79,.15)}
-/* Converter FAB */
-.fab-converter{position:fixed;bottom:calc(var(--nav-height) + 16px);right:16px;width:52px;height:52px;border-radius:50%;background:var(--gold);color:var(--text-dark);border:none;font-size:20px;cursor:pointer;z-index:999;box-shadow:0 4px 16px rgba(212,165,116,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s}
-.fab-converter:active{transform:scale(.9)}
-/* Converter modal */
-.converter-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1100;align-items:flex-end;justify-content:center}
-.converter-overlay.open{display:flex}
-.converter-modal{background:var(--white);border-radius:20px 20px 0 0;padding:24px 20px calc(env(safe-area-inset-bottom,0) + 24px);width:100%;max-width:500px;animation:slideUp .3s ease}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.converter-modal h3{font-size:20px;margin-bottom:16px;text-align:center}
-.converter-input-row{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.converter-input{flex:1;padding:14px 16px;border:2px solid var(--beige-dark);border-radius:12px;font-size:18px;font-family:'DM Sans',sans-serif;outline:none;text-align:center}
-.converter-input:focus{border-color:var(--emerald)}
-.converter-result{background:var(--beige);border-radius:12px;padding:16px;text-align:center;font-size:14px;color:var(--text-mid)}
-.converter-result .big{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--emerald);display:block;margin:4px 0}
-/* Phrase card */
-.phrase-card{background:var(--beige);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.phrase-indo{font-weight:600;color:var(--emerald-dark);font-size:14px}.phrase-es{font-size:12px;color:var(--text-light);text-align:right}
-.screen::-webkit-scrollbar{width:4px}.screen::-webkit-scrollbar-track{background:transparent}.screen::-webkit-scrollbar-thumb{background:var(--beige-dark);border-radius:4px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{animation:fadeUp .6s ease forwards}.fade-up-d1{animation-delay:.1s;opacity:0}.fade-up-d2{animation-delay:.2s;opacity:0}.fade-up-d3{animation-delay:.3s;opacity:0}.fade-up-d4{animation-delay:.4s;opacity:0}
+:root{
+  --bg:#0d1117; --bg2:#141b24; --card:#171f2b; --card2:#1c2632; --line:#26313f;
+  --txt:#e8edf3; --txt2:#9aa7b5; --txt3:#6b7787;
+  --accent:#57b8d6; --gold:#d9a021; --ice:#7fd4e8; --danger:#e0603f;
+  --shadow:0 6px 24px rgba(0,0,0,.4);
+  box-sizing:border-box;
+}
+[data-theme="light"]{
+  --bg:#f2f0ea; --bg2:#e9e6de; --card:#ffffff; --card2:#faf9f5; --line:#e2ded4;
+  --txt:#22262b; --txt2:#5d6670; --txt3:#8b93a0;
+  --accent:#1f7fa0; --gold:#b5811a; --ice:#2b93b0; --danger:#c1492b;
+  --shadow:0 4px 18px rgba(0,0,0,.10);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg); color:var(--txt); line-height:1.5;
+  padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));
+}
+h1,h2,h3{margin:0;}
+a{color:inherit;}
+.cinzel{font-family:'Cinzel',serif;}
+
+/* HERO */
+.hero{
+  position:relative; padding:34px 18px 26px;
+  padding-top:calc(30px + env(safe-area-inset-top,0px));
+  background:
+    radial-gradient(120% 80% at 80% 0%, rgba(87,184,214,.16), transparent 60%),
+    radial-gradient(90% 70% at 10% 10%, rgba(217,160,33,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg2), var(--bg));
+  border-bottom:1px solid var(--line); text-align:center; overflow:hidden;
+}
+.hero .kicker{font-size:11.5px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; font-weight:600;}
+.hero h1{font-family:'Cinzel',serif; font-size:31px; font-weight:700; letter-spacing:.04em; margin:8px 0 4px;}
+.hero .rune{color:var(--gold);}
+.hero .sub{font-size:12.5px; color:var(--txt2); max-width:520px; margin:0 auto;}
+.countdown{display:flex; gap:9px; justify-content:center; margin:20px auto 4px; flex-wrap:wrap;}
+.cd-box{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:9px 4px; min-width:64px; box-shadow:var(--shadow);}
+.cd-box .num{font-family:'Cinzel',serif; font-size:22px; font-weight:700; color:var(--ice); line-height:1;}
+.cd-box .lbl{font-size:9.5px; text-transform:uppercase; letter-spacing:.12em; color:var(--txt3); margin-top:4px;}
+.hero .datenote{font-size:10.5px; color:var(--txt3); margin-top:12px;}
+.themebtn{position:absolute; top:calc(14px + env(safe-area-inset-top,0px)); right:14px; background:var(--card); border:1px solid var(--line); color:var(--txt2); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:14px;}
+
+/* NAV */
+.tabbar{
+  position:fixed; bottom:0; left:0; right:0; z-index:1000;
+  display:flex; background:var(--card); border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0px); box-shadow:0 -3px 16px rgba(0,0,0,.22);
+}
+.tabbar button{
+  flex:1; background:none; border:none; color:var(--txt3); padding:9px 2px 8px; cursor:pointer;
+  font-size:9.5px; font-weight:600; display:flex; flex-direction:column; align-items:center; gap:3px; font-family:inherit;
+}
+.tabbar button i{font-size:16px;}
+.tabbar button.on{color:var(--accent);}
+
+/* SECTIONS */
+main{max-width:820px; margin:0 auto; padding:18px 14px 28px;}
+.section{display:none;} .section.on{display:block; animation:fade .25s ease;}
+@keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+.sec-h{font-family:'Cinzel',serif; font-size:19px; font-weight:700; margin:2px 0 3px; display:flex; align-items:center; gap:9px;}
+.sec-h i{color:var(--accent); font-size:16px;}
+.sec-sub{font-size:12px; color:var(--txt2); margin-bottom:16px;}
+
+/* MAP */
+#map{height:62vh; min-height:340px; border-radius:14px; border:1px solid var(--line); box-shadow:var(--shadow); background:var(--bg2);}
+.maplegend{margin-top:12px; display:flex; flex-wrap:wrap; gap:7px 14px; font-size:11px; color:var(--txt2);}
+.maplegend .it{display:flex; align-items:center; gap:6px;}
+.maplegend .sw{width:11px; height:11px; border-radius:50%;}
+.mapstatus{font-size:11px; color:var(--txt3); margin-top:8px;}
+
+/* DAY CARDS */
+.day{background:var(--card); border:1px solid var(--line); border-radius:14px; margin-bottom:12px; overflow:hidden; box-shadow:var(--shadow);}
+.day.today{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent),var(--shadow);}
+.day-head{display:flex; align-items:center; gap:12px; padding:14px 15px; cursor:pointer;}
+.day-badge{width:38px; height:38px; border-radius:11px; flex:none; display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-weight:700; font-size:16px; color:#0d1117;}
+.day-tt{flex:1; min-width:0;}
+.day-tt h3{font-size:14.5px; font-weight:700;}
+.day-tt .meta{font-size:11.5px; color:var(--txt2); margin-top:2px; display:flex; gap:10px; flex-wrap:wrap;}
+.day-tt .meta span{display:inline-flex; align-items:center; gap:4px;}
+.day-chev{color:var(--txt3); transition:transform .2s; font-size:13px;}
+.day.open .day-chev{transform:rotate(180deg);}
+.day-body{display:none; padding:0 15px 15px; border-top:1px solid var(--line);}
+.day.open .day-body{display:block;}
+.badge-hoy{background:var(--accent); color:#0d1117; font-size:9px; font-weight:700; padding:2px 7px; border-radius:20px; text-transform:uppercase; letter-spacing:.08em;}
+.slot{margin-top:13px;}
+.slot-lbl{font-size:10px; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); font-weight:700; margin-bottom:7px; display:flex; align-items:center; gap:6px;}
+.stop{display:flex; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+.stop:last-child{border-bottom:none;}
+.stop .ic{color:var(--txt3); font-size:12px; margin-top:3px; width:14px; text-align:center; flex:none;}
+.stop .body{flex:1; min-width:0;}
+.stop .nm{font-size:13.5px; font-weight:600;}
+.stop .ds{font-size:12px; color:var(--txt2); margin-top:2px;}
+.stop .warn{color:var(--danger);}
+.nav-btn{display:inline-flex; align-items:center; gap:5px; margin-top:6px; font-size:11px; font-weight:600; color:var(--accent); text-decoration:none; border:1px solid var(--line); padding:3px 9px; border-radius:20px;}
+.slot-note{background:var(--card2); border-radius:9px; padding:9px 11px; font-size:11.5px; color:var(--txt2); margin-top:10px; border-left:3px solid var(--gold);}
+
+/* HIKES */
+.hike{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px; box-shadow:var(--shadow);}
+.hike.jewel{border-color:var(--gold); box-shadow:0 0 0 1px rgba(217,160,33,.4),var(--shadow);}
+.hike h3{font-family:'Cinzel',serif; font-size:17px; display:flex; align-items:center; gap:8px;}
+.hike .tag{font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; padding:2px 8px; border-radius:20px; color:#0d1117;}
+.hike .stats{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0;}
+.stat{background:var(--card2); border-radius:10px; padding:8px 11px; text-align:center; flex:1; min-width:72px;}
+.stat .v{font-family:'Cinzel',serif; font-weight:700; font-size:15px; color:var(--ice);}
+.stat .k{font-size:9.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--txt3); margin-top:2px;}
+.hike p{font-size:12.5px; color:var(--txt2); margin:8px 0 0;}
+
+/* BUDGET */
+.bud-total{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; text-align:center; margin-bottom:14px; box-shadow:var(--shadow);}
+.bud-total .big{font-family:'Cinzel',serif; font-size:30px; font-weight:700; color:var(--gold);}
+.bud-total .lbl{font-size:11px; color:var(--txt2); text-transform:uppercase; letter-spacing:.1em;}
+.bud-row{display:flex; align-items:center; gap:11px; padding:11px 14px; background:var(--card); border:1px solid var(--line); border-radius:11px; margin-bottom:8px;}
+.bud-row .ic{width:32px; height:32px; border-radius:9px; background:var(--card2); display:flex; align-items:center; justify-content:center; color:var(--accent); flex:none;}
+.bud-row .nm{flex:1; font-size:13px; font-weight:600;}
+.bud-row .nm small{display:block; font-weight:400; color:var(--txt3); font-size:11px;}
+.bud-row .amt{font-family:'Cinzel',serif; font-weight:700; font-size:15px;}
+.savings{background:var(--card2); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:10px; padding:12px 14px; margin-top:12px; font-size:12px; color:var(--txt2);}
+
+/* CHECKLIST */
+.cl-cat{background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:10px; overflow:hidden; box-shadow:var(--shadow);}
+.cl-head{display:flex; align-items:center; gap:11px; padding:12px 14px; cursor:pointer;}
+.cl-head .ic{width:30px; height:30px; border-radius:8px; background:var(--card2); display:flex; align-items:center; justify-content:center; color:var(--accent); flex:none;}
+.cl-head .nm{flex:1; font-size:13.5px; font-weight:700;}
+.cl-head .cnt{font-size:11px; color:var(--txt3);}
+.cl-body{display:none; padding:4px 14px 12px;}
+.cl-cat.open .cl-body{display:block;}
+.cl-item{display:flex; align-items:center; gap:10px; padding:7px 0; cursor:pointer; font-size:13px;}
+.cl-item .box{width:19px; height:19px; border-radius:6px; border:2px solid var(--line); flex:none; display:flex; align-items:center; justify-content:center; color:#0d1117; font-size:11px;}
+.cl-item.done .box{background:var(--accent); border-color:var(--accent);}
+.cl-item.done .lbl{color:var(--txt3); text-decoration:line-through;}
+.cl-reset{width:100%; background:var(--card2); border:1px solid var(--line); color:var(--txt2); padding:10px; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; margin-top:6px; font-family:inherit;}
+
+/* INFO / SOS */
+.info-card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 15px; margin-bottom:11px; box-shadow:var(--shadow);}
+.info-card.sos{border-left:3px solid var(--danger);}
+.info-card h3{font-size:14px; display:flex; align-items:center; gap:8px; margin-bottom:9px;}
+.info-card h3 i{color:var(--accent);}
+.info-card.sos h3 i{color:var(--danger);}
+.info-row{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:12.5px;}
+.info-row:last-child{border-bottom:none;}
+.info-row .k{color:var(--txt2);} .info-row .v{font-weight:600; text-align:right;}
+.info-row a{color:var(--accent); text-decoration:none;}
+.pill{display:inline-block; font-family:'Cinzel',serif; font-weight:700; background:var(--danger); color:#fff; padding:4px 12px; border-radius:8px; font-size:15px;}
+.checklist-jan li{font-size:12.5px; color:var(--txt2); margin-bottom:6px;}
+
+/* WEATHER */
+.wx-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px;}
+.wx{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px; box-shadow:var(--shadow);}
+.wx .z{font-size:12.5px; font-weight:700;}
+.wx .t{font-family:'Cinzel',serif; font-size:26px; font-weight:700; color:var(--ice); margin:4px 0;}
+.wx .d{font-size:11px; color:var(--txt2);}
+.wx .w{font-size:10.5px; color:var(--txt3); margin-top:3px;}
+
+/* PHRASES */
+.phrase{display:flex; justify-content:space-between; gap:12px; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 13px; margin-bottom:7px;}
+.phrase .es{font-size:12px; color:var(--txt2);}
+.phrase .no{font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:var(--ice);}
+
+/* FAB */
+.fab{position:fixed; right:16px; bottom:calc(74px + env(safe-area-inset-bottom,0px)); z-index:1100; width:52px; height:52px; border-radius:50%; background:var(--gold); color:#0d1117; border:none; font-weight:700; font-size:15px; cursor:pointer; box-shadow:0 5px 18px rgba(0,0,0,.4); font-family:'Cinzel',serif;}
+.modal{position:fixed; inset:0; z-index:1200; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:20px;}
+.modal.on{display:flex;}
+.modal-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; width:100%; max-width:340px; box-shadow:var(--shadow);}
+.modal-card h3{font-family:'Cinzel',serif; font-size:17px; margin-bottom:14px; text-align:center;}
+.conv-row{display:flex; align-items:center; gap:8px; margin-bottom:10px;}
+.conv-row input{flex:1; background:var(--bg2); border:1px solid var(--line); border-radius:9px; padding:11px; color:var(--txt); font-size:16px; font-family:inherit; -webkit-appearance:none;}
+.conv-row .cur{font-family:'Cinzel',serif; font-weight:700; font-size:13px; color:var(--txt2); width:42px;}
+.conv-rate{font-size:10.5px; color:var(--txt3); text-align:center; margin-top:4px;}
+.modal-close{width:100%; background:var(--card2); border:1px solid var(--line); color:var(--txt2); padding:10px; border-radius:10px; margin-top:12px; cursor:pointer; font-family:inherit; font-weight:600;}
+.footer{text-align:center; font-size:10.5px; color:var(--txt3); padding:22px 14px 8px;}
 </style>
 </head>
 <body>
 
-<div id="screen-home" class="screen home-screen active">
-  <div class="home-hero">
-    <div class="home-ornament fade-up">✦ Aventura ✦</div>
-    <h1 class="home-title fade-up fade-up-d1">B<span>ali</span></h1>
-    <p class="home-subtitle fade-up fade-up-d2">Martí & Hugo · Abril 2026</p>
-    <div class="countdown-grid fade-up fade-up-d3">
-      <div class="countdown-item"><div class="countdown-num" id="cd-days">--</div><div class="countdown-label">Días</div></div>
-      <div class="countdown-item"><div class="countdown-num" id="cd-hours">--</div><div class="countdown-label">Horas</div></div>
-      <div class="countdown-item"><div class="countdown-num" id="cd-mins">--</div><div class="countdown-label">Min</div></div>
-      <div class="countdown-item"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-label">Seg</div></div>
-    </div>
-    <div class="home-dates fade-up fade-up-d4"><i class="fa-solid fa-plane-departure"></i> 16 Abril — 29 Abril · 14 días</div>
-    <div class="home-route fade-up fade-up-d4"><span>Canggu</span><span>Ubud</span><span>Nusa</span><span>Gili T</span><span>Uluwatu</span></div>
+<div class="hero">
+  <button class="themebtn" id="themeBtn" title="Tema"><i class="fa-solid fa-moon"></i></button>
+  <div class="kicker">Grimorio Definitivo</div>
+  <h1>NOR<span class="rune">V</span>EGR</h1>
+  <div class="sub">Círculo Bergen–Bergen · 9 días · fiordos, glaciares, 4 stavkirker y la cumbre de Skåla · Martí & Marina</div>
+  <div class="countdown" id="cd"></div>
+  <div class="datenote" id="dateNote">Fechas provisionales: 13–21 sept 2027 · se confirman al reservar</div>
+</div>
+
+<main>
+  <!-- RUTA / MAPA -->
+  <section class="section on" id="s-mapa">
+    <div class="sec-h"><i class="fa-solid fa-map-location-dot"></i> La Ruta</div>
+    <div class="sec-sub">El círculo completo, cada día de su color. Las líneas siguen las carreteras reales; las discontinuas son ferry o caminata.</div>
+    <div id="map"></div>
+    <div class="mapstatus" id="mapStatus">Calculando rutas…</div>
+    <div class="maplegend" id="mapLegend"></div>
+  </section>
+
+  <!-- DIAS -->
+  <section class="section" id="s-dias">
+    <div class="sec-h"><i class="fa-solid fa-calendar-days"></i> Día a Día</div>
+    <div class="sec-sub">Toca cada día para desplegarlo. Botón "Navegar" abre Google Maps en cada parada.</div>
+    <div id="daysWrap"></div>
+  </section>
+
+  <!-- CAMINATAS -->
+  <section class="section" id="s-hikes">
+    <div class="sec-h"><i class="fa-solid fa-person-hiking"></i> Las Caminatas</div>
+    <div class="sec-sub">Dos caminatas serias. Una es LA experiencia del viaje.</div>
+    <div id="hikesWrap"></div>
+  </section>
+
+  <!-- PRESUPUESTO -->
+  <section class="section" id="s-bud">
+    <div class="sec-h"><i class="fa-solid fa-coins"></i> Presupuesto</div>
+    <div class="sec-sub">2 personas · 9 días · precios reales 2026 (+3-5% para 2027).</div>
+    <div class="bud-total"><div class="big" id="budTotal">3.100–3.350€</div><div class="lbl">Total los dos</div></div>
+    <div id="budWrap"></div>
+    <div class="savings"><b>Objetivo de ahorro (enero):</b> ~3.300–3.500€ con colchón. Palancas si vais justos: dormir siempre en cabaña, autocatering duro, saltar el crucero (ya gratis vía ferry). Las mejores cosas —fiordos, Skåla, miradores— son gratis.</div>
+  </section>
+
+  <!-- MALETA -->
+  <section class="section" id="s-cl">
+    <div class="sec-h"><i class="fa-solid fa-suitcase-rolling"></i> La Maleta</div>
+    <div class="sec-sub">Checklist para Noruega en septiembre + caminatas. Se guarda en tu móvil.</div>
+    <div id="clWrap"></div>
+    <button class="cl-reset" id="clReset">Reiniciar checklist</button>
+  </section>
+
+  <!-- INFO -->
+  <section class="section" id="s-info">
+    <div class="sec-h"><i class="fa-solid fa-circle-info"></i> Info & SOS</div>
+    <div class="sec-sub">Emergencias, avisos de carretera, clima y lo que confirmar antes de ir.</div>
+    <div id="wxWrap"><div class="wx-grid" id="wxGrid"></div></div>
+    <div id="infoWrap"></div>
+    <div class="sec-h" style="margin-top:20px; font-size:16px;"><i class="fa-solid fa-language"></i> Frases</div>
+    <div id="phraseWrap"></div>
+  </section>
+</main>
+
+<button class="fab" id="fab">kr</button>
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h3>EUR ↔ NOK</h3>
+    <div class="conv-row"><input id="eur" type="number" inputmode="decimal" value="100"><span class="cur">EUR</span></div>
+    <div class="conv-row"><input id="nok" type="number" inputmode="decimal"><span class="cur">NOK</span></div>
+    <div class="conv-rate" id="rate">Cargando cambio…</div>
+    <button class="modal-close" id="modalClose">Cerrar</button>
   </div>
 </div>
 
-<div id="screen-map" class="screen"><div id="map-container"><div id="map"></div><div class="map-legend" id="map-legend"></div></div></div>
-
-<div id="screen-itinerary" class="screen content-screen">
-  <div class="section-header" style="background:linear-gradient(135deg,var(--emerald-dark),var(--emerald))"><h2>Itinerario</h2><p>14 días · 5 bases · Infinitas aventuras</p></div>
-  <div id="itin-list"></div>
+<div class="tabbar" id="tabbar">
+  <button data-s="mapa" class="on"><i class="fa-solid fa-map-location-dot"></i>Ruta</button>
+  <button data-s="dias"><i class="fa-solid fa-calendar-days"></i>Días</button>
+  <button data-s="hikes"><i class="fa-solid fa-person-hiking"></i>Cumbres</button>
+  <button data-s="bud"><i class="fa-solid fa-coins"></i>€</button>
+  <button data-s="cl"><i class="fa-solid fa-suitcase-rolling"></i>Maleta</button>
+  <button data-s="info"><i class="fa-solid fa-circle-info"></i>Info</button>
 </div>
 
-<div id="screen-checklist" class="screen content-screen">
-  <div class="section-header" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--text-dark)">
-    <h2>Checklist</h2><p>¿Lo tienes todo?</p>
-    <div class="check-progress"><div class="check-progress-bar" id="progress-bar"></div></div>
-    <div class="check-progress-text" id="progress-text">0 / 0</div>
-  </div>
-  <div id="check-list"></div>
-</div>
+<div class="footer">Noruega · Plan B · 9 días · Skål 🖤 — app estilo TripCraft, guardable en el móvil</div>
 
-<div id="screen-weather" class="screen content-screen">
-  <div class="section-header" style="background:linear-gradient(135deg,#2980B9,#3498DB)"><h2>Tiempo</h2><p>Previsión por zona y horario</p></div>
-  <div id="wx-content"><div style="text-align:center;padding:40px;color:var(--text-light)"><i class="fa-solid fa-cloud-sun" style="font-size:32px;margin-bottom:12px;display:block"></i>Selecciona una zona</div></div>
-</div>
-
-<div id="screen-emergency" class="screen content-screen">
-  <div class="section-header" style="background:linear-gradient(135deg,#C0392B,#E74C3C)"><h2>Emergencias & Info</h2><p>SOS · Frases · Tips</p></div>
-  <div id="emerg-list"></div>
-</div>
-
-<!-- EUR/IDR Converter FAB -->
-
-<button class="fab-converter" id="fab-converter" onclick="toggleConverter()">💱</button>
-
-<!-- Converter Modal -->
-
-<div class="converter-overlay" id="converter-overlay" onclick="if(event.target===this)toggleConverter()">
-  <div class="converter-modal">
-    <h3>💱 EUR → IDR</h3>
-    <div class="converter-input-row">
-      <div style="text-align:center">
-        <input type="number" class="converter-input" id="eur-input" placeholder="0" oninput="convertCurrency()" value="10">
-        <div style="font-size:12px;color:var(--text-light);margin-top:4px">EUR €</div>
-      </div>
-      <i class="fa-solid fa-arrow-right" style="color:var(--gold);font-size:20px;flex-shrink:0"></i>
-      <div style="text-align:center">
-        <input type="number" class="converter-input" id="idr-input" placeholder="0" oninput="convertCurrencyReverse()">
-        <div style="font-size:12px;color:var(--text-light);margin-top:4px">IDR Rp</div>
-      </div>
-    </div>
-    <div class="converter-result">
-      <span id="conv-result-text">10 € = <span class="big">Rp 175.000</span></span>
-      <div style="margin-top:8px;font-size:11px;color:var(--text-light)">Cambio aprox: 1 € ≈ 17.500 IDR</div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px">
-      <button onclick="quickConvert(1)" style="padding:10px;border:1px solid var(--beige-dark);border-radius:8px;background:var(--white);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500">1€</button>
-      <button onclick="quickConvert(5)" style="padding:10px;border:1px solid var(--beige-dark);border-radius:8px;background:var(--white);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500">5€</button>
-      <button onclick="quickConvert(10)" style="padding:10px;border:1px solid var(--beige-dark);border-radius:8px;background:var(--white);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500">10€</button>
-      <button onclick="quickConvert(50)" style="padding:10px;border:1px solid var(--beige-dark);border-radius:8px;background:var(--white);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500">50€</button>
-    </div>
-  </div>
-</div>
-
-<nav class="navbar">
-  <div class="nav-item active" data-screen="home"><i class="fa-solid fa-house"></i><span>Inicio</span></div>
-  <div class="nav-item" data-screen="map"><i class="fa-solid fa-map-location-dot"></i><span>Mapa</span></div>
-  <div class="nav-item" data-screen="itinerary"><i class="fa-solid fa-calendar-days"></i><span>Días</span></div>
-  <div class="nav-item" data-screen="checklist"><i class="fa-solid fa-clipboard-check"></i><span>Check</span></div>
-  <div class="nav-item" data-screen="weather"><i class="fa-solid fa-cloud-sun"></i><span>Tiempo</span></div>
-  <div class="nav-item" data-screen="emergency"><i class="fa-solid fa-kit-medical"></i><span>SOS</span></div>
-</nav>
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const TRIP_START=new Date('2026-04-16T00:00:00');
-const RATE=17500; // EUR to IDR approx
+/* ---------- DATA ---------- */
+const TRIP_START = new Date('2027-09-13T09:00:00');
 
-// Trip dates mapped to real calendar dates for "today" detection
-const DAY_DATES=['2026-04-16','2026-04-17','2026-04-18','2026-04-19','2026-04-20','2026-04-21','2026-04-22','2026-04-23','2026-04-24','2026-04-25','2026-04-26','2026-04-27','2026-04-28','2026-04-29'];
+const days = [
+ {n:1,color:'#8b7fdf',title:'BCN → Bergen',base:'Bergen',drive:'mínima',feel:'Turístico',
+  slots:[
+   {k:'Mañana',ic:'fa-plane-arrival',items:[
+     {nm:'Vuelo + coche',ds:'Llegada a Flesland, recogida del coche (origen del círculo, sin recargos). Compra en Rema 1000 / Kiwi.',ic:'fa-car'}]},
+   {k:'Tarde',ic:'fa-sun',items:[
+     {nm:'Fantoft Stavkirke',ds:'Apertura kvlt: la iglesia que quemó Varg en 1992, reconstruida.',ll:[60.3393,5.3533]},
+     {nm:'Bryggen + Apollon Platebar',ds:'Muelles hanseáticos UNESCO y tienda de vinilos. Callejea los pasajes interiores.',ll:[60.3976,5.3245]},
+     {nm:'Fisketorget',ds:'Mercado de pescado. Salmón, fiskekake.',ll:[60.3947,5.3252]},
+     {nm:'Fløyen',ds:'Subida a pie ~45 min, bosque y vistas de Bergen.',ll:[60.3983,5.3459]}]}],
+  note:'🏠 Noche 1: Bergen centro. Conducción mínima.'},
 
-const ZONES=[
-  {id:'canggu',name:'Canggu',color:'#2D6A4F',dates:'17–19 Abr',lat:-8.6594,lng:115.1301},
-  {id:'ubud',name:'Ubud',color:'#7B2D8B',dates:'20 Abr',lat:-8.5069,lng:115.2625},
-  {id:'nusa',name:'Nusa Penida',color:'#C0392B',dates:'21–22 Abr',lat:-8.7275,lng:115.5444},
-  {id:'gili',name:'Gili Trawangan',color:'#2980B9',dates:'23–25 Abr',lat:-8.3510,lng:116.0345},
-  {id:'uluwatu',name:'Uluwatu',color:'#D4A017',dates:'26–28 Abr',lat:-8.8291,lng:115.0849},
+ {n:2,color:'#17a67f',title:'Bergen → Flåm',base:'Flåm / Aurland',drive:'~2,5–3 h',feel:'Turístico + naturaleza',
+  slots:[
+   {k:'Mañana',ic:'fa-mug-hot',items:[
+     {nm:'Salida 08:30 · E16 por Voss',ds:'Conducción moderada por el valle.',ic:'fa-road'},
+     {nm:'Tvindefossen',ds:'Cascada a pie de carretera, 15 min.',ll:[60.7282,6.4914]}]},
+   {k:'Mediodía',ic:'fa-water',items:[
+     {nm:'Gudvangen',ds:'Fondo del Nærøyfjord (UNESCO), el más estrecho de Europa.',ll:[60.8775,6.8381]},
+     {nm:'Undredal',ds:'Pueblo de 60 hab, brunost. ⚠ Iglesia cierra al paso libre el 15 sept.',ll:[60.9515,7.1046],warn:true}]},
+   {k:'Tarde',ic:'fa-person-walking',items:[
+     {nm:'Flåm + Brekkefossen',ds:'SIN Flåmsbana: caminata a Brekkefossen (~30 min ida) o valle de Flåm. Tarde relajada.',ll:[60.8608,7.1118]}]}],
+  note:'🏠 Noche 2: Gudvangen (Gard) o cercanías; si caro/lleno, retroceder hacia Voss.'},
+
+ {n:3,color:'#d85a30',title:'Aurland → Sogndal',base:'Sogndalsfjøra',drive:'~2–2,5 h',feel:'Naturaleza',
+  slots:[
+   {k:'Mañana',ic:'fa-mountain-sun',items:[
+     {nm:'Stegastein',ds:'Mirador volado sobre el Aurlandsfjord. Sendero de cresta ~1-1,5 h.',ll:[60.9086,7.2121]},
+     {nm:'Snow Road o Túnel de Lærdal',ds:'⚠ Aurlandsfjellet si hace bueno; si nieve/niebla, el túnel (24,5 km, siempre abierto).',ll:[61.0956,7.4783],warn:true}]},
+   {k:'Mediodía',ic:'fa-church',items:[
+     {nm:'Iglesia de Borgund',ds:'~1180, la mejor conservada, cabezas de dragón. ~14€ pp.',ll:[61.0473,7.8125]}]},
+   {k:'Tarde',ic:'fa-ferry',items:[
+     {nm:'Ferry Fodnes–Mannheller',ds:'Cada 20-30 min, sin reserva, pago a bordo.',ll:[61.0776,7.5453]}]}],
+  note:'🏠 Noche 3: Sogndalsfjøra (apartamento · ANCLA 1 de 2).'},
+
+ {n:4,color:'#d43f78',title:'Sogndal → Loen',base:'Loen',drive:'~2,5–3 h',feel:'Naturaleza',
+  slots:[
+   {k:'Mañana',ic:'fa-ferry',items:[
+     {nm:'Ferry Solvorn → Urnes · 10:00',ds:'Peatonal (75 NOK pp), cada hora. Llegad con margen desde Sogndal.',ll:[61.3009,7.2455]},
+     {nm:'Iglesia de Urnes',ds:'UNESCO, ~1130, la más antigua. Solo con guía, abre 10:30. Temporada hasta 30 sept.',ll:[61.2980,7.3230]}]},
+   {k:'Mediodía',ic:'fa-icicles',items:[
+     {nm:'Glaciar Bøyabreen',ds:'Mirador rápido, 15 min andando. Muy ventoso.',ll:[61.4151,6.6758]}]},
+   {k:'Tarde',ic:'fa-person-hiking',items:[
+     {nm:'Lago Oldevatnet',ds:'Agua turquesa de deshielo, menos turístico que Lovatnet.',ll:[61.7812,6.8237]},
+     {nm:'Glaciar Briksdal',ds:'Caminata ~1,5 h i/v, cascadas. Chubasquero.',ll:[61.6660,6.8902]}]}],
+  note:'🏠 Noche 4: Loen (valle de Lovatnet · 1 de 2). ⚠ El día más rígido: sin Skåla mañana, no hay colchón para mover paradas.'},
+
+ {n:5,color:'#d9a021',title:'SKÅLA ⚡ la cumbre',base:'Loen',drive:'mínima',feel:'Cumbre · el día fuerte',
+  slots:[
+   {k:'Todo el día',ic:'fa-mountain',items:[
+     {nm:'Ascenso a Skåla · 1.848 m',ds:'Escaleras de piedra "sherpa" hasta la torre de la cima. Vistas al glaciar Jostedalsbreen. 6-9 h i/v, exigente. Inicio: parking de Tjugen (~2,5 km de Loen).',ll:[61.8760,6.9750]}]}],
+  note:'🏠 Noche 5: Loen (mismo sitio, sin mover mochilas). ⚠ Día flexible: con mal tiempo o piernas cansadas → subida parcial a un mirador (~1.300 m) o descanso + Lovatnet. No subir con niebla.'},
+
+ {n:6,color:'#2f7fd1',title:'Loen → Hellesylt',base:'Hellesylt',drive:'~2,5–3 h',feel:'Naturaleza · respiro',
+  slots:[
+   {k:'Mañana',ic:'fa-leaf',items:[
+     {nm:'Lago Lovatnet',ds:'Recuperación tras Skåla: paseo por la orilla del lago esmeralda.',ll:[61.8423,6.9327]}]},
+   {k:'Tarde',ic:'fa-road',items:[
+     {nm:'Loen → Hellesylt · Stryn-Grotli',ds:'Conducción escénica, sin prisas. Piernas rotas + curvas: día de piloto automático.',ll:[62.0855,6.8890]}]}],
+  note:'🏠 Noche 6: Hellesylt (base para el ferry-crucero gratis de mañana).'},
+
+ {n:7,color:'#5f9a1f',title:'Geiranger + Trollstigen',base:'Åndalsnes',drive:'~2,5 h',feel:'Turístico pero espectacular',
+  slots:[
+   {k:'Mañana',ic:'fa-ship',items:[
+     {nm:'Ferry Hellesylt → Geiranger',ds:'HACK: hace de crucero por el fiordo (Siete Hermanas, Velo de Novia) sin pagar la turistada.',ll:[62.1005,6.8672]},
+     {nm:'Flydalsjuvet',ds:'La vista clásica del Geirangerfjord.',ll:[62.0908,7.2232]}]},
+   {k:'Mediodía',ic:'fa-road-spikes',items:[
+     {nm:'Trollstigen',ds:'11 curvas de infarto (vía ferry Eidsdal-Linge). ⚠ Comprobar apertura en vegvesen.no.',ll:[62.4551,7.6670],warn:true}]},
+   {k:'Tarde',ic:'fa-mountain-sun',items:[
+     {nm:'Rampestreken',ds:'Plataforma suspendida, ~1,5 h i/v. Atardecer: subir ~17:30, frontales para la bajada.',ll:[62.5609,7.7124]}]}],
+  note:'🏠 Noche 7: Åndalsnes o Isfjorden (a 10 min, más barato).'},
+
+ {n:8,color:'#0e9aa7',title:'Åndalsnes → Sogndal',base:'Sogndalsfjøra',drive:'~4,5–5,5 h',feel:'Alta montaña alpina',
+  slots:[
+   {k:'Mañana',ic:'fa-church',items:[
+     {nm:'Iglesia de Lom',ds:'4ª y última stavkirke, de las más grandes. Confirmar temporada.',ll:[61.8398,8.5662]}]},
+   {k:'Mediodía',ic:'fa-mountain',items:[
+     {nm:'Sognefjellet · 1.434 m',ds:'⚠ Puerto alpino, punto único de fallo del plan. Confirmar apertura en vegvesen.no.',ll:[61.5615,7.9872],warn:true},
+     {nm:'Mirador de Fannaråken',ds:'Caminata 2: corta pero empinada, ~2-3 h. Picos de Hurrungane y lenguas de glaciar. Si venís fundidos, se recorta a miradores de carretera.',ll:[61.5400,7.9300]}]},
+   {k:'Tarde',ic:'fa-road',items:[
+     {nm:'Bajada a Sogndal · vía Skjolden',ds:'Día largo (coche + caminata): arrancad pronto.',ll:[61.2296,7.0996]}]}],
+  note:'🏠 Noche 8: Sogndalsfjøra (mismo apartamento · ANCLA 2 de 2).'},
+
+ {n:9,color:'#6b6b64',title:'Sogndal → Bergen → BCN',base:'Vuelo',drive:'~4–4,5 h',feel:'Logística',
+  slots:[
+   {k:'Mañana',ic:'fa-road',items:[
+     {nm:'Sogndal → Bergen · E16',ds:'~4-4,5 h, últimas cascadas por la ventana.',ll:[60.2934,5.2181]}]},
+   {k:'Tarde',ic:'fa-plane-departure',items:[
+     {nm:'Flesland · devolución + vuelo',ds:'Coche al mismo sitio (sin one-way fee). Vuelo de tarde, llegad con 2 h de margen.',ic:'fa-plane'}]}],
+  note:'✈️ FIN del círculo.'}
 ];
 
-const ZONE_DATES={canggu:['2026-04-17','2026-04-18','2026-04-19'],ubud:['2026-04-20'],nusa:['2026-04-21','2026-04-22'],gili:['2026-04-23','2026-04-24','2026-04-25'],uluwatu:['2026-04-26','2026-04-27','2026-04-28']};
-
-const DAYS=[
-  {day:1,date:'16 Abr',weekday:'Jueves',zone:'travel',title:'Vuelo a Bali',color:'#6C757D',slots:{manana:['Vuelo de 18 horas ✈️ ¡Empieza la aventura!']}},
-  {day:2,date:'17 Abr',weekday:'Viernes',zone:'canggu',title:'Llegada a Canggu',color:'#2D6A4F',slots:{manana:['Check-in + dejar maletas en el alojamiento'],mediodia:['Paseo a pie por Batu Bolong (mil cafés y tiendas)'],tarde:['Sunset en Batu Bolong Beach (ambiente) o Nelayan Beach (más tranquilo, 5 min)'],noche:["Old Man's (clásico social frente al mar) + Cena"]}},
-  {day:3,date:'18 Abr',weekday:'Sábado',zone:'canggu',title:'Playas + CUBO',color:'#2D6A4F',slots:{manana:['Pererenan Beach → más chill y bonita\nSeseh Beach → aún más tranquila'],tarde:['CUBO (gigante, espectáculo)\nId temprano para pillar buen sitio y ver el sunset desde piscina/mar'],noche:['FIESTUKI 🎉']}},
-  {day:4,date:'19 Abr',weekday:'Domingo',zone:'canggu',title:'Tanah Lot Sunset',color:'#2D6A4F',slots:{manana:['Playa Pererenan o Seseh'],mediodia:['Masaje (Canggu: barato y buenísimo) + Piscina relax'],tarde:['Tanah Lot Sunset\nIR CON MARGEN – Salid sobre 15:30–16:00\nPaseo, fotos y sunset en el templo'],noche:['Última cena guapa en Batu Bolong + dormir pronto (mañana cambio de base)']}},
-  {day:5,date:'20 Abr',weekday:'Lunes',zone:'ubud',title:'Ubud: Quads + Cascadas',color:'#7B2D8B',slots:{manana:['SALIR MUY PRONTO 07:30–08:00\n10:00–10:30 Ruta en quad por barro, túneles y arrozales\nComida y ducha incluidas'],tarde:['14:15–15:30 Tegenungan Waterfall\n16:15–18:00 Tegallalang Rice Terraces\n18:45 Volver a hotel / ducha / relax'],noche:['Cenika y a dormir 😴']}},
-  {day:6,date:'21 Abr',weekday:'Martes',zone:'nusa',title:'Nusa Penida — Llegada',color:'#C0392B',slots:{manana:['06:30 Despertar\n07:00 Salida de Ubud → Puerto de Sanur (driver)\n08:00–08:30 Llegada al puerto\n09:00 Fast boat a Nusa\n09:30–10:15 Llegada a Nusa'],mediodia:['Ruta Oeste:\n• Kelingking Viewpoint (solo mirador)\n• Broken Beach\n• Angel\'s Billabong'],tarde:['Crystal Bay 🌊'],noche:['Cena cerca del hotel (Toyapakeh tiene buenas opciones)']}},
-  {day:7,date:'22 Abr',weekday:'Miércoles',zone:'nusa',title:'Nusa Penida — Ruta Este',color:'#C0392B',slots:{manana:['07:00 Salida con driver\n08:00–11:30 Ruta Este:\n• Diamond Beach\n• Atuh Beach\n• Mirador Thousand Islands'],mediodia:['12:00–13:00 Comer cerca de la zona Este'],tarde:['15:00–18:00 Volver al hotel → piscina / relax / siesta'],noche:['Cena tranquila\nPreparar mochilas para barco Nusa → Gili T']}},
-  {day:8,date:'23 Abr',weekday:'Jueves',zone:'gili',title:'Gili Trawangan — Llegada',color:'#2980B9',slots:{manana:['06:30 despertar + desayuno rápido\n07:15 salir del hotel → puerto (Nusa)\n08:00–08:30 estar en el puerto\nBarco mañana → Nusa → Gili T'],mediodia:['Dejar maletas en hotel y pillar bici 🚲'],tarde:['Comida sencilla cerca del "main strip"\nPaseo por la isla'],noche:['Cena en el Night Market (barato y variado)\nSunset bars / música (plan chill-social)\nDormir decente: mañana snorkel']}},
-  {day:9,date:'24 Abr',weekday:'Viernes',zone:'gili',title:'Gili — Snorkel + Explore',color:'#2980B9',slots:{manana:['09:30–13:00 Tour snorkel (barco compartido)\n🐢 RESERVAR: Turtle Point'],mediodia:['Comida + ducha + siesta corta (30–60 min)'],tarde:['Bici around the island 🚲\nNorth-East beach\nChill playa + "golden hour" sunset West Coast'],noche:['Salir fuerte por el Main strip (East) 🎉']}},
-  {day:10,date:'25 Abr',weekday:'Sábado',zone:'gili',title:'Gili — Último día relax',color:'#2980B9',slots:{manana:['South / South-East: coged bici hacia abajo, más vacío y tranquilo\nSnorkel desde orilla por zona norte; paz total por el sur'],tarde:['Si queréis "postal": North-East (baño y relax)\nSi queréis "cero gente": South-East'],noche:['Cena guapa por el Main strip\nA dormir pronto (mañana Uluwatu)']}},
-  {day:11,date:'26 Abr',weekday:'Domingo',zone:'uluwatu',title:'Uluwatu — Llegada',color:'#D4A017',slots:{manana:['07:30–08:00 Fast boat desde Gili\n11:00–13:00 Llegada a Bali + driver a Padang Padang/Pecatu'],mediodia:['14:00 Check-in + comida ligera\n15:30 Descanso / piscina'],tarde:['16:00–18:30 Padang Padang Beach\nEntrada aprox: IDR 15.000 adulto (cash)'],noche:['19:30 Cena cerca + dormir bien']}},
-  {day:12,date:'27 Abr',weekday:'Lunes',zone:'uluwatu',title:'Bingin + Balangan',color:'#D4A017',slots:{manana:['08:30 Salida\n09:00–11:30 Bingin Beach\nVibe brutal, muy Uluwatu. Bajad con calma (escaleras)'],mediodia:['12:00–13:30 Comer + descanso (os salva del calor)'],tarde:['14:30–16:30 Balangan Beach (abierta y fotogénica)\n17:15–19:30 Ulu Cliffhouse o Single Fin para sunset/tardeo'],noche:['20:30 Cena + copas suaves (guardad energía para el templo mañana)']}},
-  {day:13,date:'28 Abr',weekday:'Martes',zone:'uluwatu',title:'Uluwatu Temple + Kecak',color:'#D4A017',slots:{manana:['09:00–11:30 Suluban Beach (Blue Point)\nCuevas/rocas, súper chula'],mediodia:['12:00–14:30 Masaje + comida + preparar mochila del vuelo'],tarde:['15:30 Salir hacia Uluwatu Temple\n16:00 Entrada + paseo por el acantilado\n18:00–19:00 Kecak Dance con sunset de fondo 🌅'],noche:['20:00–21:30 Cena final y a dormir temprano']}},
-  {day:14,date:'29 Abr',weekday:'Miércoles',zone:'travel',title:'Vuelta a casa',color:'#6C757D',slots:{manana:['Vuelo de vuelta ✈️ Hasta la próxima, Bali 🌺']}},
+const hikes=[
+ {name:'Skåla',jewel:true,tag:'La joya',tagc:'#d9a021',day:5,
+  stats:[['1.848 m','Cima'],['6-9 h','Ida y vuelta'],['~1.800 m','Desnivel'],['Dura','Nivel']],
+  desc:'El desnivel continuo más largo de Noruega, por escaleras de piedra marcadas con T rojas. En la cima, Skålatårnet (torre de 1891) con literas, y vistas de una vez en la vida al Jostedalsbreen, las montañas y el Nordfjord. Sin equipo técnico, pero sí botas, capas, lluvia, comida y agua de sobra. Inicio: parking de Tjugen, casi en el Lovatnet. Opción corta si las piernas dicen no: escaleras hasta ~1.300-1.400 m y bajar.'},
+ {name:'Mirador de Fannaråken',jewel:false,tag:'Alpina',tagc:'#0e9aa7',day:8,
+  stats:[['~2.068 m','Zona'],['2-3 h','Duración'],['Empinada','Perfil'],['Sognefjellet','Acceso']],
+  desc:'Sale de la propia carretera de Sognefjellet (Sognefjellshytta / Prestesteinsvatnet). Corta pero empinada, con vistas amplias a los picos dentados de Hurrungane y a las lenguas de glaciar. El sitio donde la montaña y el hielo se tocan. Si lleváis muchos kilómetros encima ese día, se reduce a los miradores de carretera (Vegaskjelet, Fortun) sin bajar del coche.'}
 ];
 
-const MARKERS=[
-  {name:'Batu Bolong Beach',zone:'canggu',lat:-8.6594824,lng:115.1301361,desc:'Playa principal de Canggu, ambiente y sunset'},
-  {name:'Nelayan Beach',zone:'canggu',lat:-8.6618096,lng:115.132987,desc:'Playa tranquila entre Berawa y Batu Bolong'},
-  {name:'Pererenan Beach',zone:'canggu',lat:-8.6518457,lng:115.1215411,desc:'Más chill y bonita, menos turistas'},
-  {name:'Seseh Beach',zone:'canggu',lat:-8.6473999,lng:115.1142271,desc:'Tranquilidad total, arena negra'},
-  {name:"Old Man's",zone:'canggu',lat:-8.6589741,lng:115.1308029,desc:'Bar clásico social frente al mar'},
-  {name:'Tanah Lot',zone:'canggu',lat:-8.621213,lng:115.086807,desc:'Templo icónico en el mar · Sunset'},
-  {name:'Tegenungan Waterfall',zone:'ubud',lat:-8.5753621,lng:115.2889599,desc:'Cascada espectacular cerca de Ubud'},
-  {name:'Tegallalang Rice Terraces',zone:'ubud',lat:-8.4317112,lng:115.279303,desc:'Terrazas de arroz icónicas'},
-  {name:'Kelingking Viewpoint',zone:'nusa',lat:-8.7503865,lng:115.4726218,desc:'El mirador más famoso de Nusa Penida'},
-  {name:'Broken Beach',zone:'nusa',lat:-8.7327938,lng:115.4508319,desc:'Arco natural circular impresionante'},
-  {name:"Angel's Billabong",zone:'nusa',lat:-8.7335003,lng:115.4489788,desc:'Piscina natural al borde del acantilado'},
-  {name:'Crystal Bay',zone:'nusa',lat:-8.7156148,lng:115.4592001,desc:'Arena blanca · Snorkel y sunset'},
-  {name:'Diamond Beach',zone:'nusa',lat:-8.7751348,lng:115.6202282,desc:'Playa paradisíaca este de Nusa'},
-  {name:'Atuh Beach',zone:'nusa',lat:-8.7734116,lng:115.6218187,desc:'Playa espectacular junto a Diamond'},
-  {name:'Thousand Islands Viewpoint',zone:'nusa',lat:-8.7787791,lng:115.6169247,desc:'Mirador panorámico con islotes'},
-  {name:'Gili T Harbor',zone:'gili',lat:-8.3548637,lng:116.0431565,desc:'Puerto de llegada a Gili T'},
-  {name:'Gili T Night Market',zone:'gili',lat:-8.3546448,lng:116.0426798,desc:'Mercado nocturno: marisco variado'},
-  {name:'Turtle Point (Snorkel)',zone:'gili',lat:-8.3440,lng:116.0280,desc:'Snorkel con tortugas 🐢'},
-  {name:'Padang Padang Beach',zone:'uluwatu',lat:-8.8111377,lng:115.1037658,desc:'Playa icónica (IDR 15k entrada)'},
-  {name:'Bingin Beach',zone:'uluwatu',lat:-8.8056919,lng:115.1130376,desc:'Vibe brutal, escaleras para bajar'},
-  {name:'Suluban Beach (Blue Point)',zone:'uluwatu',lat:-8.8219159,lng:115.0896105,desc:'Cuevas y rocas, súper chula'},
-  {name:'Balangan Beach',zone:'uluwatu',lat:-8.7920478,lng:115.1234172,desc:'Playa abierta y fotogénica'},
-  {name:'Uluwatu Temple',zone:'uluwatu',lat:-8.8291432,lng:115.0849069,desc:'Templo acantilado + Kecak Dance'},
-  {name:'Single Fin Bali',zone:'uluwatu',lat:-8.8148568,lng:115.0888711,desc:'Sunset bar con vistas al mar'},
-  {name:'Ulu Cliffhouse',zone:'uluwatu',lat:-8.8143654,lng:115.0914686,desc:'Beach club con piscina y vistas'},
+const budget=[
+ ['fa-plane','Vuelo','ida y vuelta Bergen','~500€'],
+ ['fa-car','Coche','9 días de alquiler','~675€'],
+ ['fa-bed','Alojamiento','8 noches (cabañas/apts)','~1.120€'],
+ ['fa-gas-pump','Gasolina','~1.500 km','~220€'],
+ ['fa-ferry','Ferries','Fodnes, Urnes, Eidsdal','~100€'],
+ ['fa-utensils','Comida','autocatering + alguna cena','~450€'],
+ ['fa-ticket','Actividades','entradas iglesias (Skåla gratis)','~50€']
 ];
 
-const CHECKLIST={
-  '1. Documentos e Importantes':{icon:'fa-passport',items:['Pasaporte (vigente 6+ meses)','Copia digital del pasaporte','Seguro de viaje (impreso + digital)','Visado (PDF)','QR tasa Bali','Billetes / reservas importantes','Tarjeta Revolut','Otra tarjeta backup','100€ en efectivo','Carnet de conducir + internacional (si moto)','💡 Todo junto en carpeta o bolso pequeño']},
-  '2. Tecnología':{icon:'fa-plug',items:['Móvil','Cargador móvil','Powerbank','Adaptador enchufe','Auriculares','Cable extra']},
-  '3. Ropa — Arriba':{icon:'fa-shirt',items:['6–8 camisetas finas','2 camisas / overshirts guapas para noche','1 sudadera fina para avión']},
-  '3. Ropa — Abajo':{icon:'fa-shirt',items:['3–4 bañadores','3–4 shorts','1 pantalón largo ligero','1 conjunto guapo beach club / noche']},
-  '3. Ropa — Interior':{icon:'fa-shirt',items:['8–10 calzoncillos','6–8 pares de calcetines']},
-  '4. Calzado':{icon:'fa-shoe-prints',items:['Sandalias que agarren ✅','Zapatillas cómodas','Chanclas piscina / ducha']},
-  '5. Playa / Snorkel':{icon:'fa-umbrella-beach',items:['Gafas de sol','Gorra','Toalla microfibra','Bolsa estanca','Camiseta UV (opcional)']},
-  '6. Aseo / Salud':{icon:'fa-pump-medical',items:['Cepillo y pasta','Desodorante','Protector solar fuerte','Repelente de mosquitos','Paracetamol','Tiritas','Algo para barriga','Gel / champú pequeño']},
-  '7. Mochila de día':{icon:'fa-bag-shopping',items:['Mochila pequeña excursiones','Agua + cartera + cargador','Gafas + repelente + bañador + toalla']},
+const checklist={
+ 'Documentos':{ic:'fa-passport',items:['DNI/Pasaporte','Tarjeta Sanitaria Europea','Carné de conducir','Reservas (coche, cabañas, ferry)','Seguro de viaje','Tarjeta de crédito (Noruega es sin efectivo)']},
+ 'Capas de montaña':{ic:'fa-shirt',items:['Camiseta térmica base','Forro polar','Plumas/primaloft ligero','Softshell','Pantalón de montaña','Gorro y guantes finos']},
+ 'Impermeable':{ic:'fa-cloud-rain',items:['Chubasquero Gore-Tex','Pantalón de lluvia','Funda impermeable mochila']},
+ 'Calzado':{ic:'fa-socks',items:['Botas de montaña (para Skåla)','Zapatillas cómodas','Chanclas para cabaña','Calcetines técnicos x varios']},
+ 'Para Skåla y caminatas':{ic:'fa-person-hiking',items:['Mochila 20-30 L','Bastones de trekking','Frontal (Rampestreken al atardecer)','Botella + snacks/frutos secos','Mapa/GPS offline (track descargado)','Botiquín ampollas']},
+ 'Tech':{ic:'fa-plug',items:['Adaptador enchufe tipo F','Powerbank','Cargadores','Soporte móvil para el coche','Cable USB coche']},
+ 'Botiquín':{ic:'fa-kit-medical',items:['Ibuprofeno/paracetamol','Tiritas + apósitos ampollas','Protección solar','Antiinflamatorio muscular']},
+ 'Cabaña / autocatering':{ic:'fa-kitchen-set',items:['Bolsa comida (jamón, aceite, especias)','Toalla de viaje','Bolsas de basura','Táper para comida al paso']}
 };
 
-const EMERGENCY=[
-  {icon:'fa-phone-volume',color:'#C0392B',bg:'#FDEDEC',title:'Emergencias Indonesia',text:'Policía: <a href="tel:110">110</a>\nAmbulancia: <a href="tel:118">118</a> / <a href="tel:119">119</a>\nBomberos: <a href="tel:113">113</a>'},
-  {icon:'fa-hospital',color:'#2980B9',bg:'#EBF5FB',title:'Hospital más cercano',text:'BIMC Hospital Kuta\n<a href="tel:+62361761263">+62 361 761 263</a>\nAbierto 24h, hablan inglés'},
-  {icon:'fa-building-columns',color:'#2D6A4F',bg:'#EAFAF1',title:'Embajada de España',text:'Embajada en Yakarta\n<a href="tel:+622131935180">+62 21 3193 5180</a>\nEmergencia consular 24h'},
-  {icon:'fa-shield-halved',color:'#7B2D8B',bg:'#F4ECF7',title:'Seguro de Viaje',text:'Lleva siempre el nº de tu aseguradora y póliza.\nCopia en el móvil y en el email.'},
-  {icon:'fa-money-bill',color:'#D4A017',bg:'#FEF9E7',title:'Dinero y pagos',text:'Moneda: Rupia Indonesia (IDR)\n1 EUR ≈ 17.500 IDR\nCash para templos, parking, mercados.\nCajeros: BCA, Mandiri, BNI.'},
-  {icon:'fa-triangle-exclamation',color:'#E67E22',bg:'#FDF2E9',title:'Tips de seguridad',text:'Cuidado con los monos en Uluwatu (gafas, móvil).\nNo beber agua del grifo.\nRegatear con humor (empezar 30-40%).\nCash pequeño para propinas.\nCopias digitales de todo en la nube.'},
+const emergency=[
+ {t:'112',k:'Emergencias generales / Policía'},
+ {t:'113',k:'Ambulancia / Médica'},
+ {t:'110',k:'Bomberos'},
+ {t:'02800',k:'Policía no urgente'},
+ {t:'175',k:'Estado de carreteras (vegvesen)'}
 ];
 
-const PHRASES=[
-  {indo:'Terima kasih',es:'Gracias'},
-  {indo:'Sama-sama',es:'De nada'},
-  {indo:'Berapa harganya?',es:'¿Cuánto cuesta?'},
-  {indo:'Terlalu mahal',es:'Demasiado caro'},
-  {indo:'Bisa kurang?',es:'¿Puede rebajar?'},
-  {indo:'Satu / Dua / Tiga',es:'Uno / Dos / Tres'},
-  {indo:'Tolong',es:'Por favor / Ayuda'},
-  {indo:'Permisi',es:'Perdone / Con permiso'},
-  {indo:'Tidak, terima kasih',es:'No, gracias'},
-  {indo:'Di mana...?',es:'¿Dónde está...?'},
-  {indo:'Kamar mandi',es:'Baño'},
-  {indo:'Makan / Minum',es:'Comer / Beber'},
-  {indo:'Enak sekali!',es:'¡Está buenísimo!'},
-  {indo:'Rumah sakit',es:'Hospital'},
-  {indo:'Saya butuh bantuan',es:'Necesito ayuda'},
+const zones=[
+ {z:'Bergen',lat:60.39,lng:5.32},
+ {z:'Loen',lat:61.87,lng:6.85},
+ {z:'Geiranger',lat:62.10,lng:7.20},
+ {z:'Åndalsnes',lat:62.57,lng:7.69},
+ {z:'Sognefjellet',lat:61.56,lng:7.99}
 ];
 
-// ═══════ APP LOGIC ═══════
-let map=null,mapInitialized=false;
+const phrases=[
+ ['Hola','Hei'],['Gracias','Takk'],['Por favor','Vær så snill'],['Sí / No','Ja / Nei'],
+ ['Perdón','Unnskyld'],['¿Hablas inglés?','Snakker du engelsk?'],['¿Cuánto cuesta?','Hva koster det?'],
+ ['La cuenta','Regningen, takk'],['¡Salud! (brindis)','Skål!'],['Adiós','Ha det'],
+ ['¿Dónde está…?','Hvor er…?'],['Ayuda','Hjelp'],['Agua','Vann'],['Cerveza','Øl'],
+ ['Montaña','Fjell'],['Fiordo','Fjord'],['Buenos días','God morgen']
+];
 
-// Get today's trip day index (0-based), -1 if outside trip
-function getTodayIndex(){
-  const today=new Date().toISOString().split('T')[0];
-  return DAY_DATES.indexOf(today);
+/* ---------- COUNTDOWN ---------- */
+function renderCd(){
+  const now=new Date(), diff=TRIP_START-now;
+  const cd=document.getElementById('cd');
+  if(diff<=0){ cd.innerHTML='<div class="cd-box"><div class="num">¡Ya!</div><div class="lbl">En Noruega</div></div>'; return; }
+  const d=Math.floor(diff/864e5), h=Math.floor(diff/36e5)%24, m=Math.floor(diff/6e4)%60, s=Math.floor(diff/1e3)%60;
+  const parts=[[d,'Días'],[h,'Horas'],[m,'Min'],[s,'Seg']];
+  cd.innerHTML=parts.map(p=>'<div class="cd-box"><div class="num">'+p[0]+'</div><div class="lbl">'+p[1]+'</div></div>').join('');
 }
+renderCd(); setInterval(renderCd,1000);
 
-// Navigation
-document.querySelectorAll('.nav-item').forEach(item=>{item.addEventListener('click',()=>{const s=item.dataset.screen;document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('screen-'+s).classList.add('active');item.classList.add('active');if(s==='map'&&!mapInitialized)initMap();if(s==='map'&&map)setTimeout(()=>map.invalidateSize(),100);if(s==='weather')initWeather();if(s==='itinerary')scrollToToday()})});
+/* ---------- TABS ---------- */
+const secs={mapa:'s-mapa',dias:'s-dias',hikes:'s-hikes',bud:'s-bud',cl:'s-cl',info:'s-info'};
+document.getElementById('tabbar').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#tabbar button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  Object.values(secs).forEach(id=>document.getElementById(id).classList.remove('on'));
+  document.getElementById(secs[b.dataset.s]).classList.add('on');
+  if(b.dataset.s==='mapa'&&window._map){setTimeout(()=>window._map.invalidateSize(),120);}
+  window.scrollTo(0,0);
+});
 
-// Countdown
-function updateCountdown(){const now=new Date(),diff=TRIP_START-now;if(diff<=0){document.getElementById('cd-days').textContent='🌴';document.getElementById('cd-hours').textContent='🌊';document.getElementById('cd-mins').textContent='🌺';document.getElementById('cd-secs').textContent='🔥';return}document.getElementById('cd-days').textContent=Math.floor(diff/864e5);document.getElementById('cd-hours').textContent=Math.floor(diff%864e5/36e5);document.getElementById('cd-mins').textContent=Math.floor(diff%36e5/6e4);document.getElementById('cd-secs').textContent=Math.floor(diff%6e4/1e3)}
-updateCountdown();setInterval(updateCountdown,1000);
+/* ---------- THEME ---------- */
+const themeBtn=document.getElementById('themeBtn');
+function applyTheme(t){
+  if(t==='light'){document.documentElement.setAttribute('data-theme','light'); themeBtn.innerHTML='<i class="fa-solid fa-sun"></i>';}
+  else{document.documentElement.removeAttribute('data-theme'); themeBtn.innerHTML='<i class="fa-solid fa-moon"></i>';}
+  try{localStorage.setItem('nrv-theme',t);}catch(e){}
+}
+themeBtn.onclick=()=>applyTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light');
+try{applyTheme(localStorage.getItem('nrv-theme')||'dark');}catch(e){applyTheme('dark');}
 
-// Map
-function initMap(){map=L.map('map',{zoomControl:false}).setView([-8.65,115.35],10);L.control.zoom({position:'topright'}).addTo(map);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);const zc={};ZONES.forEach(z=>zc[z.id]=z.color);
-MARKERS.forEach(m=>{const c=zc[m.zone]||'#333';const icon=L.divIcon({className:'',html:`<div style="width:28px;height:28px;background:${c};border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:white;border-radius:50%"></div></div>`,iconSize:[28,28],iconAnchor:[14,14]});const mk=L.marker([m.lat,m.lng],{icon}).addTo(map);const url=`https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lng}`;mk.bindPopup(`<div class="popup-title">${m.name}</div><div class="popup-zone">${m.zone}</div><div class="popup-desc">${m.desc}</div><a class="popup-nav" href="${url}" target="_blank"><i class="fa-solid fa-diamond-turn-right"></i> Navegar</a>`,{maxWidth:260})});
-const leg=document.getElementById('map-legend');ZONES.forEach(z=>{leg.innerHTML+=`<div class="legend-item"><div class="legend-dot" style="background:${z.color}"></div>${z.name}</div>`});mapInitialized=true}
+/* ---------- DAYS ---------- */
+function navLink(ll){return 'https://www.google.com/maps/search/?api=1&query='+ll[0]+','+ll[1];}
+function renderDays(){
+  const w=document.getElementById('daysWrap'); w.innerHTML='';
+  const todayIdx=Math.floor((new Date()-TRIP_START)/864e5);
+  days.forEach((d,i)=>{
+    const isToday=(i===todayIdx);
+    const el=document.createElement('div'); el.className='day'+(isToday?' today open':'');
+    let slots=d.slots.map(sl=>{
+      const stops=sl.items.map(s=>{
+        const nav=s.ll?'<a class="nav-btn" href="'+navLink(s.ll)+'" target="_blank" rel="noopener"><i class="fa-solid fa-diamond-turn-right"></i> Navegar</a>':'';
+        return '<div class="stop"><div class="ic"><i class="fa-solid '+(s.ic||'fa-location-dot')+'"></i></div><div class="body"><div class="nm">'+s.nm+'</div><div class="ds'+(s.warn?' warn':'')+'">'+s.ds+'</div>'+nav+'</div></div>';
+      }).join('');
+      return '<div class="slot"><div class="slot-lbl"><i class="fa-solid '+sl.ic+'"></i> '+sl.k+'</div>'+stops+'</div>';
+    }).join('');
+    el.innerHTML=
+      '<div class="day-head"><div class="day-badge" style="background:'+d.color+'">'+d.n+'</div>'+
+      '<div class="day-tt"><h3>'+d.title+(isToday?' <span class="badge-hoy">Hoy</span>':'')+'</h3>'+
+      '<div class="meta"><span><i class="fa-solid fa-bed"></i> '+d.base+'</span><span><i class="fa-solid fa-car"></i> '+d.drive+'</span><span><i class="fa-solid fa-circle" style="color:'+d.color+';font-size:8px"></i> '+d.feel+'</span></div></div>'+
+      '<i class="fa-solid fa-chevron-down day-chev"></i></div>'+
+      '<div class="day-body">'+slots+'<div class="slot-note">'+d.note+'</div></div>';
+    el.querySelector('.day-head').onclick=()=>el.classList.toggle('open');
+    w.appendChild(el);
+  });
+}
+renderDays();
 
-function showOnMap(lat,lng){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('screen-map').classList.add('active');document.querySelector('[data-screen="map"]').classList.add('active');if(!mapInitialized)initMap();setTimeout(()=>{map.invalidateSize();map.setView([lat,lng],15);map.eachLayer(l=>{if(l instanceof L.Marker){const ll=l.getLatLng();if(Math.abs(ll.lat-lat)<.005&&Math.abs(ll.lng-lng)<.005)l.openPopup()}})},150)}
+/* ---------- HIKES ---------- */
+(function(){
+  const w=document.getElementById('hikesWrap');
+  w.innerHTML=hikes.map(h=>{
+    const stats=h.stats.map(s=>'<div class="stat"><div class="v">'+s[0]+'</div><div class="k">'+s[1]+'</div></div>').join('');
+    return '<div class="hike'+(h.jewel?' jewel':'')+'"><h3>'+(h.jewel?'⛰ ':'')+h.name+' <span class="tag" style="background:'+h.tagc+'">'+h.tag+'</span></h3>'+
+      '<div style="font-size:11px;color:var(--txt3);margin-top:2px">Día '+h.day+'</div>'+
+      '<div class="stats">'+stats+'</div><p>'+h.desc+'</p></div>';
+  }).join('');
+})();
 
-// Scroll to today in itinerary
-function scrollToToday(){const ti=getTodayIndex();if(ti>=0){setTimeout(()=>{const el=document.getElementById('day-card-'+ti);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});if(!el.classList.contains('open'))el.classList.add('open')}},200)}}
+/* ---------- BUDGET ---------- */
+(function(){
+  const w=document.getElementById('budWrap');
+  w.innerHTML=budget.map(b=>'<div class="bud-row"><div class="ic"><i class="fa-solid '+b[0]+'"></i></div><div class="nm">'+b[1]+'<small>'+b[2]+'</small></div><div class="amt">'+b[3]+'</div></div>').join('');
+})();
 
-// Itinerary
-(function(){const c=document.getElementById('itin-list');const ti={manana:'fa-sun',mediodia:'fa-cloud-sun',tarde:'fa-moon',noche:'fa-star'};const tl={manana:'Mañana',mediodia:'Mediodía',tarde:'Tarde',noche:'Noche'};
-const todayIdx=getTodayIndex();
-DAYS.forEach((day,idx)=>{const isToday=idx===todayIdx;const card=document.createElement('div');card.className='day-card'+(isToday?' is-today':'');card.id='day-card-'+idx;
-card.innerHTML=`<div class="day-card-header"><div class="day-num" style="background:${day.color}">${day.day}</div><div class="day-info"><h3>${day.title}${isToday?'<span class="today-badge">📍 Hoy</span>':''}</h3><p>${day.weekday} ${day.date}</p></div><i class="fa-solid fa-chevron-down day-chevron"></i></div><div class="day-content">${Object.entries(day.slots).map(([s,acts])=>`<div class="time-block"><div class="time-label"><i class="fa-solid ${ti[s]}"></i> ${tl[s]}</div>${acts.map(act=>{let nb='';MARKERS.forEach(m=>{const w=m.name.toLowerCase().split(/[\s()]+/);if(w.some(x=>x.length>3&&act.toLowerCase().includes(x))){const u=`https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lng}`;nb=`<a class="act-nav" onclick="showOnMap(${m.lat},${m.lng});return false" href="#"><i class="fa-solid fa-map-pin"></i> Mapa</a><a class="act-nav" href="${u}" target="_blank" style="background:var(--gold);color:var(--text-dark);margin-left:4px"><i class="fa-solid fa-diamond-turn-right"></i> Navegar</a>`}});return`<div class="activity-item">${act}${nb?'<div style="margin-top:8px">'+nb+'</div>':''}</div>`}).join('')}</div>`).join('')}</div>`;
-if(isToday)card.classList.add('open');
-card.querySelector('.day-card-header').addEventListener('click',()=>card.classList.toggle('open'));c.appendChild(card)})})();
+/* ---------- CHECKLIST ---------- */
+function loadCl(){try{return JSON.parse(localStorage.getItem('nrv-cl')||'{}');}catch(e){return {};}}
+function saveCl(s){try{localStorage.setItem('nrv-cl',JSON.stringify(s));}catch(e){}}
+function renderCl(){
+  const w=document.getElementById('clWrap'); const state=loadCl(); w.innerHTML='';
+  Object.keys(checklist).forEach(cat=>{
+    const c=checklist[cat];
+    const done=c.items.filter(it=>state[cat+'|'+it]).length;
+    const el=document.createElement('div'); el.className='cl-cat';
+    el.innerHTML='<div class="cl-head"><div class="ic"><i class="fa-solid '+c.ic+'"></i></div><div class="nm">'+cat+'</div><div class="cnt">'+done+'/'+c.items.length+'</div></div>'+
+      '<div class="cl-body">'+c.items.map(it=>{
+        const k=cat+'|'+it, on=state[k];
+        return '<div class="cl-item'+(on?' done':'')+'" data-k="'+k+'"><div class="box">'+(on?'<i class="fa-solid fa-check"></i>':'')+'</div><div class="lbl">'+it+'</div></div>';
+      }).join('')+'</div>';
+    el.querySelector('.cl-head').onclick=()=>el.classList.toggle('open');
+    el.querySelectorAll('.cl-item').forEach(it=>it.onclick=()=>{
+      const st=loadCl(); st[it.dataset.k]=!st[it.dataset.k]; saveCl(st); renderCl();
+    });
+    w.appendChild(el);
+  });
+}
+renderCl();
+document.getElementById('clReset').onclick=()=>{if(confirm('¿Reiniciar toda la checklist?')){saveCl({});renderCl();}};
 
-// Checklist
-(function(){const c=document.getElementById('check-list');const saved=JSON.parse(localStorage.getItem('bali-checklist2')||'{}');
-Object.entries(CHECKLIST).forEach(([cat,data])=>{const s=document.createElement('div');s.className='check-category';s.innerHTML=`<div class="check-cat-header"><i class="fa-solid ${data.icon}"></i><span>${cat}</span><span class="cat-count">${data.items.length}</span><i class="fa-solid fa-chevron-down cat-chevron"></i></div><div class="check-items">${data.items.map((item,i)=>{const k=cat+'-'+i;return`<div class="check-item ${saved[k]?'done':''}" data-key="${k}"><div class="check-box"><i class="fa-solid fa-check"></i></div><span class="check-text">${item}</span></div>`}).join('')}</div>`;
-s.querySelector('.check-cat-header').addEventListener('click',()=>s.classList.toggle('open'));
-s.querySelectorAll('.check-item').forEach(item=>{item.addEventListener('click',()=>{item.classList.toggle('done');const st=JSON.parse(localStorage.getItem('bali-checklist2')||'{}');st[item.dataset.key]=item.classList.contains('done');localStorage.setItem('bali-checklist2',JSON.stringify(st));updateProgress()})});c.appendChild(s)});updateProgress()})();
-function updateProgress(){const t=document.querySelectorAll('.check-item').length,d=document.querySelectorAll('.check-item.done').length,p=t>0?d/t*100:0;document.getElementById('progress-bar').style.width=p+'%';document.getElementById('progress-text').textContent=`${d} / ${t} — ${Math.round(p)}%`}
+/* ---------- INFO / SOS ---------- */
+(function(){
+  const w=document.getElementById('infoWrap');
+  const emRows=emergency.map(e=>'<div class="info-row"><span class="k">'+e.k+'</span><span class="v"><span class="pill">'+e.t+'</span></span></div>').join('');
+  w.innerHTML=
+   '<div class="info-card sos"><h3><i class="fa-solid fa-kit-medical"></i> Emergencias en Noruega</h3>'+emRows+'</div>'+
+   '<div class="info-card sos"><h3><i class="fa-solid fa-hospital"></i> Hospitales y embajada</h3>'+
+     '<div class="info-row"><span class="k">Haukeland (Bergen)</span><span class="v">55 97 50 00</span></div>'+
+     '<div class="info-row"><span class="k">Embajada España (Oslo)</span><span class="v">+47 22 92 66 90</span></div>'+
+     '<div class="info-row"><span class="k">Seguro de viaje</span><span class="v">llevar póliza + TSE</span></div></div>'+
+   '<div class="info-card"><h3><i class="fa-solid fa-triangle-exclamation"></i> Avisos de carretera</h3>'+
+     '<div class="info-row"><span class="k">Sognefjellet (1.434 m)</span><span class="v">Punto de fallo · <a href="https://www.vegvesen.no" target="_blank">vegvesen.no</a></span></div>'+
+     '<div class="info-row"><span class="k">Trollstigen</span><span class="v">Comprobar apertura</span></div>'+
+     '<div class="info-row"><span class="k">Snow Road (Aurland)</span><span class="v">Cierra con nieve/niebla</span></div>'+
+     '<div class="info-row"><span class="k">Clima montaña</span><span class="v"><a href="https://www.yr.no" target="_blank">yr.no</a></span></div></div>'+
+   '<div class="info-card"><h3><i class="fa-solid fa-list-check"></i> Confirmar en enero 2027</h3>'+
+     '<ul class="checklist-jan" style="margin:0;padding-left:18px">'+
+     '<li>La hucha contra ~3.300€ decide si Noruega o Camino Primitivo.</li>'+
+     '<li>Reservar primero (pocas camas): Loen ×2, Sogndalsfjøra ×2, Hellesylt.</li>'+
+     '<li>Orden de pago: vuelos → coche → camas → nada más. Tarifa cancelable.</li>'+
+     '<li>Vuelo de vuelta de TARDE el Día 9.</li>'+
+     '<li>Que las 2 noches de Sogndal sean sueltas (3 y 8), no seguidas.</li></ul></div>';
+})();
 
-// Weather
-let wxInit=false,wxActiveZone='canggu';
-function initWeather(){if(wxInit)return;wxInit=true;renderWeatherUI();loadWeather(wxActiveZone)}
-function getWMOIcon(c){return{0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌧️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'}[c]||'🌤️'}
-function getWMODesc(c){return{0:'Despejado',1:'Casi despejado',2:'Parcialmente nublado',3:'Nublado',45:'Niebla',51:'Llovizna',53:'Llovizna',61:'Lluvia ligera',63:'Lluvia',65:'Lluvia fuerte',80:'Chubascos',82:'Tormenta',95:'Tormenta'}[c]||'Variable'}
-function renderWeatherUI(){const c=document.getElementById('wx-content');c.innerHTML=`<div style="display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch" id="wx-tabs">${ZONES.map(z=>`<div class="wx-zone-tab ${z.id===wxActiveZone?'active':''}" data-zone="${z.id}" style="${z.id===wxActiveZone?'background:'+z.color+';border-color:'+z.color+';color:white':''}">${z.name}<br><span style="font-size:10px;font-weight:400">${z.dates}</span></div>`).join('')}</div><div id="wx-data"><div style="text-align:center;padding:40px;color:var(--text-light)"><i class="fa-solid fa-spinner fa-spin" style="font-size:24px;margin-bottom:8px;display:block"></i>Cargando...</div></div>`;
-document.querySelectorAll('.wx-zone-tab').forEach(tab=>{tab.addEventListener('click',()=>{wxActiveZone=tab.dataset.zone;renderWeatherUI();loadWeather(wxActiveZone)})})}
+/* ---------- PHRASES ---------- */
+(function(){
+  document.getElementById('phraseWrap').innerHTML=phrases.map(p=>'<div class="phrase"><span class="es">'+p[0]+'</span><span class="no">'+p[1]+'</span></div>').join('');
+})();
 
-async function loadWeather(zoneId){const zone=ZONES.find(z=>z.id===zoneId);const dates=ZONE_DATES[zoneId];if(!zone||!dates)return;const container=document.getElementById('wx-data');
-try{const url=`https://api.open-meteo.com/v1/forecast?latitude=${zone.lat}&longitude=${zone.lng}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=Asia/Makassar&forecast_days=16`;
-const res=await fetch(url);const data=await res.json();if(!data.hourly){container.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-light)">No se pudo cargar.</div>';return}
-const cur=data.current;let html=`<div style="background:white;border-radius:16px;padding:20px;box-shadow:var(--shadow);text-align:center;margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-size:56px;font-weight:700;color:var(--emerald)">${Math.round(cur.temperature_2m)}°C</div><div style="font-size:36px;margin:4px 0">${getWMOIcon(cur.weather_code)}</div><div style="font-size:14px;color:var(--text-mid)">${getWMODesc(cur.weather_code)} · Ahora en ${zone.name}</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px"><div><div style="font-size:18px;font-weight:600">${cur.relative_humidity_2m}%</div><div style="font-size:10px;color:var(--text-light);text-transform:uppercase">Humedad</div></div><div><div style="font-size:18px;font-weight:600">${Math.round(cur.wind_speed_10m)} km/h</div><div style="font-size:10px;color:var(--text-light);text-transform:uppercase">Viento</div></div><div><div style="font-size:18px;font-weight:600">WITA</div><div style="font-size:10px;color:var(--text-light);text-transform:uppercase">Zona horaria</div></div></div></div>`;
-dates.forEach(dateStr=>{const dayLabel=new Date(dateStr+'T00:00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
-html+=`<h3 style="margin:16px 0 8px;font-size:15px">${dayLabel}</h3><div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:12px;-webkit-overflow-scrolling:touch">`;
-for(let h=6;h<=23;h++){const ts=dateStr+'T'+String(h).padStart(2,'0')+':00';const idx=data.hourly.time.indexOf(ts);if(idx===-1)continue;
-html+=`<div class="wx-hour"><div style="font-size:11px;color:var(--text-light)">${h}:00</div><div style="font-size:22px;margin:4px 0">${getWMOIcon(data.hourly.weather_code[idx])}</div><div style="font-size:16px;font-weight:600">${Math.round(data.hourly.temperature_2m[idx])}°</div>${data.hourly.precipitation_probability[idx]>0?`<div style="font-size:10px;color:#2980B9;margin-top:2px">💧 ${data.hourly.precipitation_probability[idx]}%</div>`:''}</div>`}
-html+='</div>'});
-html+='<div style="font-size:11px;color:var(--text-light);text-align:center;margin-top:8px">Datos: <a href="https://open-meteo.com" target="_blank" style="color:var(--emerald)">Open-Meteo.com</a></div>';
-container.innerHTML=html}catch(e){container.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-light)">Error al cargar. Comprueba tu conexión.</div>'}}
+/* ---------- WEATHER ---------- */
+const WMO={0:['☀️','Despejado'],1:['🌤️','Casi despejado'],2:['⛅','Nubes'],3:['☁️','Nublado'],45:['🌫️','Niebla'],48:['🌫️','Niebla'],51:['🌦️','Llovizna'],53:['🌧️','Llovizna'],55:['🌧️','Llovizna fuerte'],61:['🌧️','Lluvia'],63:['🌧️','Lluvia'],65:['🌧️','Lluvia fuerte'],71:['🌨️','Nieve'],73:['🌨️','Nieve'],75:['❄️','Nieve fuerte'],80:['🌦️','Chubascos'],81:['🌧️','Chubascos'],82:['⛈️','Tormenta'],95:['⛈️','Tormenta']};
+(function(){
+  const g=document.getElementById('wxGrid');
+  g.innerHTML=zones.map((z,i)=>'<div class="wx" id="wx'+i+'"><div class="z">'+z.z+'</div><div class="t">–</div><div class="d">cargando…</div></div>').join('');
+  zones.forEach((z,i)=>{
+    fetch('https://api.open-meteo.com/v1/forecast?latitude='+z.lat+'&longitude='+z.lng+'&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto')
+    .then(r=>r.json()).then(d=>{
+      const c=d.current, w=WMO[c.weather_code]||['·','—'];
+      document.getElementById('wx'+i).innerHTML='<div class="z">'+z.z+'</div><div class="t">'+Math.round(c.temperature_2m)+'°</div><div class="d">'+w[0]+' '+w[1]+'</div><div class="w"><i class="fa-solid fa-wind"></i> '+Math.round(c.wind_speed_10m)+' km/h</div>';
+    }).catch(e=>{document.getElementById('wx'+i).querySelector('.d').textContent='sin datos';});
+  });
+})();
 
-// Emergency + Phrases
-(function(){const c=document.getElementById('emerg-list');
-EMERGENCY.forEach(e=>{c.innerHTML+=`<div class="emerg-card"><div class="emerg-icon" style="background:${e.bg};color:${e.color}"><i class="fa-solid ${e.icon}"></i></div><div class="emerg-info"><h4>${e.title}</h4><p>${e.text.replace(/\n/g,'<br>')}</p></div></div>`});
-// Bahasa phrases section
-c.innerHTML+=`<div style="margin-top:24px"><div style="text-align:center;margin-bottom:16px;padding:16px;background:linear-gradient(135deg,var(--emerald-dark),var(--emerald));border-radius:var(--radius);color:white"><h3 style="font-size:20px;margin-bottom:4px">🇮🇩 Frases útiles en Bahasa</h3><p style="opacity:.7;font-size:12px">Copia mental antes de salir cada día</p></div>${PHRASES.map(p=>`<div class="phrase-card"><span class="phrase-indo">${p.indo}</span><span class="phrase-es">${p.es}</span></div>`).join('')}</div>`})();
+/* ---------- CURRENCY ---------- */
+let RATE=11.7;
+const modal=document.getElementById('modal'), eur=document.getElementById('eur'), nok=document.getElementById('nok'), rateEl=document.getElementById('rate');
+document.getElementById('fab').onclick=()=>{modal.classList.add('on'); calc('eur');};
+document.getElementById('modalClose').onclick=()=>modal.classList.remove('on');
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove('on');};
+function calc(from){
+  if(from==='eur'){const v=parseFloat(eur.value)||0; nok.value=(v*RATE).toFixed(0);}
+  else{const v=parseFloat(nok.value)||0; eur.value=(v/RATE).toFixed(2);}
+}
+eur.oninput=()=>calc('eur'); nok.oninput=()=>calc('nok');
+fetch('https://api.frankfurter.app/latest?from=EUR&to=NOK').then(r=>r.json()).then(d=>{
+  if(d&&d.rates&&d.rates.NOK){RATE=d.rates.NOK; rateEl.textContent='1 EUR = '+RATE.toFixed(2)+' NOK · '+(d.date||'');calc('eur');}
+}).catch(e=>{rateEl.textContent='1 EUR ≈ '+RATE+' NOK (aprox.)';});
+rateEl.textContent='1 EUR ≈ '+RATE+' NOK';
+calc('eur');
 
-// Converter
-function toggleConverter(){document.getElementById('converter-overlay').classList.toggle('open')}
-function convertCurrency(){const eur=parseFloat(document.getElementById('eur-input').value)||0;const idr=Math.round(eur*RATE);document.getElementById('idr-input').value=idr>0?idr:'';document.getElementById('conv-result-text').innerHTML=`${eur} € = <span class="big">Rp ${idr.toLocaleString('es-ES')}</span>`}
-function convertCurrencyReverse(){const idr=parseFloat(document.getElementById('idr-input').value)||0;const eur=(idr/RATE).toFixed(2);document.getElementById('eur-input').value=eur>0?eur:'';document.getElementById('conv-result-text').innerHTML=`${eur} € = <span class="big">Rp ${idr.toLocaleString('es-ES')}</span>`}
-function quickConvert(v){document.getElementById('eur-input').value=v;convertCurrency()}
-convertCurrency();
+/* ---------- MAP ---------- */
+(function(){
+  const START=[60.2934,5.2181];
+  const map=L.map('map',{scrollWheelZoom:true}).setView([61.4,7.4],6); window._map=map;
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OSM &copy; CARTO',maxZoom:19,subdomains:'abcd'}).addTo(map);
+  L.circleMarker(START,{radius:7,color:'#333',weight:1.5,fillColor:days[0].color,fillOpacity:1}).addTo(map).bindPopup('<b>Bergen — inicio</b>');
+  const allPts=[START];
+  const legend=document.getElementById('mapLegend');
+  days.forEach(d=>{
+    d.slots.forEach(sl=>sl.items.forEach(s=>{ if(s.ll){allPts.push(s.ll);
+      const isHike=(d.n===5||s.nm.indexOf('Fannaråken')>-1);
+      L.circleMarker(s.ll,{radius:isHike?7:5.5,color:isHike?'#7a5b00':'#333',weight:isHike?2:1.3,fillColor:d.color,fillOpacity:1}).addTo(map)
+       .bindPopup('<b>'+s.nm+'</b><br><span style="font-size:11px;color:#666">Día '+d.n+'</span>');
+    }}));
+    legend.innerHTML+='<span class="it"><span class="sw" style="background:'+d.color+'"></span>'+d.n+'</span>';
+  });
+  map.fitBounds(L.latLngBounds(allPts).pad(0.12));
 
-// Service Worker for offline (basic caching)
-if('serviceWorker' in navigator){const sw=`const CACHE='bali-v3';const URLS=['./'];self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(URLS)))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{if(res.status===200){const clone=res.clone();caches.open(CACHE).then(c=>c.put(e.request,clone))}return res}).catch(()=>caches.match('./'))))})`;
-const blob=new Blob([sw],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{})}
+  // driving order for routing
+  const order=[START];
+  days.forEach(d=>d.slots.forEach(sl=>sl.items.forEach(s=>{if(s.ll)order.push({ll:s.ll,c:d.color,hike:(d.n===5||s.nm.indexOf('Fannaråken')>-1||s.nm.indexOf('Urnes')>-1)});})));
+  // normalize: first is START (no color)
+  function hav(a,b){const R=6371,dLat=(b[0]-a[0])*Math.PI/180,dLon=(b[1]-a[1])*Math.PI/180;const x=Math.sin(dLat/2)**2+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
+  const legs=[]; let prev=START;
+  order.forEach((o,idx)=>{ if(idx===0)return; const ll=o.ll||o; const col=o.c||'#888';
+    if(o.hike){legs.push({a:prev,b:ll,c:col,dash:true}); return;}
+    legs.push({a:prev,b:ll,c:col}); prev=ll;
+  });
+  const st=document.getElementById('mapStatus');
+  function dash(a,b,c){L.polyline([a,b],{color:c,weight:2.5,opacity:.7,dashArray:'6 7'}).addTo(map);}
+  (async function(){
+    let done=0,fail=0;
+    for(const leg of legs){
+      if(leg.dash){dash(leg.a,leg.b,leg.c);done++;continue;}
+      const s=hav(leg.a,leg.b);
+      try{
+        const r=await fetch('https://router.project-osrm.org/route/v1/driving/'+leg.a[1]+','+leg.a[0]+';'+leg.b[1]+','+leg.b[0]+'?overview=full&geometries=geojson');
+        const j=await r.json();
+        if(j.code==='Ok'){const km=j.routes[0].distance/1000; const pts=j.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
+          if(km>Math.max(s*3.2,s+40))dash(leg.a,leg.b,leg.c); else L.polyline(pts,{color:leg.c,weight:4,opacity:.85}).addTo(map);
+        } else dash(leg.a,leg.b,leg.c);
+      }catch(e){dash(leg.a,leg.b,leg.c);fail++;}
+      done++; st.textContent='Rutas: '+done+'/'+legs.length;
+      await new Promise(r=>setTimeout(r,220));
+    }
+    st.textContent = fail>legs.length/2?'Rutas aprox. (sin router)':'Ruta completa ✓';
+  })();
+})();
 </script>
-
 </body>
 </html>
